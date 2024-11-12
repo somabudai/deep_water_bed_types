@@ -8,11 +8,11 @@ library(pracma)
 
 #READ DATA FILES
 
-bed_data_dummy <- read.csv('bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('mud_thickness_dummy.csv', header = TRUE)
+bed_data_dummy <- read.csv('DW_SLG/bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('DW_SLG/bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('DW_SLG/thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('DW_SLG/sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('DW_SLG/mud_thickness_dummy.csv', header = TRUE)
 
 
 #' Log generator
@@ -893,22 +893,24 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
 
 
 
-time_start <- Sys.time()
-example1 <- log_generator(start_seed = 1, iteration_number = 10,include_logs = FALSE, include_validating_plots = FALSE,
-                      input_bedding_data = bed_data_dummy,
-                      input_transition_data = bed_transition_data_dummy, 
-                      input_log_trend_data = thickness_trend_dummy, 
-                      input_mud_data = mud_thickness_dummy, 
-                      input_ng_data = sand_gravel_fraction_dummy,
-                      selected_sys_type = 'gravelly-sand system', 
-                      selected_element = 'channel',
-                      selected_climate = c('greenhouse'),
-                      selected_sand_thickness = seq(10,22),
-                      selected_bed_number = seq(12,30))
-end_time <- Sys.time()
 
-run_time <- end_time-time_start
-print(run_time)
+example1 <- log_generator(start_seed = 1, 
+                          iteration_number = 10,
+                          include_logs = TRUE, 
+                          include_validating_plots = TRUE,
+                          input_bedding_data = bed_data_dummy,
+                          input_transition_data = bed_transition_data_dummy, 
+                          input_log_trend_data = thickness_trend_dummy, 
+                          input_mud_data = mud_thickness_dummy, 
+                          input_ng_data = sand_gravel_fraction_dummy,
+                          selected_sys_type = 'gravelly-sand system', 
+                          selected_element = 'channel',
+                          selected_climate = c('greenhouse'),
+                          selected_sand_thickness = seq(10,22),
+                          selected_bed_number = seq(12,30))
+
+
+
 
 example2 <- log_generator(start_seed = 1, iteration_number = 10, include_logs = TRUE, include_validating_plots = TRUE,
                       input_bedding_data = bed_data_dummy,
