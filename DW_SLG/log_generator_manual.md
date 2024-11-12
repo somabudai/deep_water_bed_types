@@ -1,86 +1,77 @@
-#PACKAGES AND SOURCES
+# Deep-Water Sedimentary Log Generator
+
+2024-11-12
+
+**Authors:** Budai, S., Colombera, L., McArthur, A. and Patacci, M.
+
+contact: soma.budai@unipv.it
+
+------------------------------------------------------------------------
+
+This document explain how the algorithm presented in
+`dw_sed_log_generator.R` works and how it generates synthethic
+sedimentary logs depicting a selected deep-water architectural element.
+
+Runtimes:
+
+On a computer with the following specifications: i7-1360P 2.20 GHz, 32
+GB RAM and Intel Iris Xe Graphics display adaptor on average generating
+10 sedimentary logs without graphical input takes 3 seconds, with
+graphical sedimentary log inputs 7 seconds, and with both graphical
+outputs 15 seconds.
+
+*Flowchart of the algorithm:*
+
+![Flow chart of the described script.](log_generation_flowchart.jpg)
+
+### 1. Loading packages
+
+``` r
 library('MASS')
 library(ggplot2)
 library(dplyr)
 library(ggpubr)
-library(pracma)
+```
 
+The script utilizes a series of packages, in order to manipulate
+dataframes (`dplyr`), create plots (`ggplot2`) stitch plots together to
+a single figure (`ggpubr`) and fit distribution on thickness data
+(`MASS`).
 
-#READ DATA FILES
+### 2. Loading dataset
 
+``` r
 bed_data_dummy <- read.csv('DW_SLG/bed_data_dummy.csv', header = TRUE)
 bed_transition_data_dummy <- read.csv('DW_SLG/bed_transition_data_dummy.csv', header = TRUE)
 thickness_trend_dummy <-  read.csv('DW_SLG/thickness_trend_dummy.csv', header = TRUE)
 sand_gravel_fraction_dummy <- read.csv('DW_SLG/sand_gravel_fraction_dummy.csv', header = TRUE)
 mud_thickness_dummy <- read.csv('DW_SLG/mud_thickness_dummy.csv', header = TRUE)
+```
 
+The code is supplied with dummy datasets in the form of .csv files. Data
+contained in these dummy datasets are utilized in the example
+application of the script.
 
-#' Log generator
-#' A function that generates synthetic logs based on a series of input parameters. 
-#' @param start_seed Seed to control all random number generation used in the 
-#'                   script for reproducibility. Integer.
-#' @param iteration_number Number of logs the user want to generate. Integer.
-#' @param include_logs If TRUE the script will generate graphical logs saved as '.pdf'
-#' @param include_validating_plots If TRUE the script will generate validating plots saved as '.pdf'
-#' @param input_bedding_data Dataset containing information on bed properties.
-#'                           Dummy dataset included: 'bed_data_dummy'
-#' @param input_transition_data Dataset containing information on facies transitions.
-#'                              Dummy dataset included: 'bed_transition_data_dummy.csv'
-#' @param input_log_trend_data Dataset containing information on vertical bed thickness trends.
-#'                             Dummy dataset included: 'thickness_trend_dummy.csv'
-#' @param input_mud_data Dataset containing information on mud thickness.
-#'                       Dummy dataset included: 'mud_thickness_dummy.csv'
-#' @param input_ng_data Dataset containing information on element sand-gravel fraction.
-#'                      Dummy dataset included: 'sand_gravel_fraction_dummy.csv'
-#' @param selected_sys_type Dominant grain size of the deep-marine system
-#'                          whose element will be represented on the output log.
-#'                          Options: 'sandy-system', 'gravelly-sand system'   
-#'                          Both options can be selected at the same time.
-#' @param selected_element Architectural-element type represented on the modelled log. 
-#'                         Only one class can be selected.
-#'                         Options: 'terminal deposit','channel','levee'
-#' @param selected_climate Global climate (icehouse, greenhouse) under the modelled element 
-#'                         was deposited. All classes can be selected at the same time.
-#'                         Options:'greenhouse','icehouse','uncertain'
-#' @param selected_period Age of the deposits included in the studied dataset 
-#'                        (periods of the geological time scale). 
-#'                        It allows the exclusion of e.g. Quaternary deposits from the bed type statistics. 
-#'                        By default, the whole geological time scale is selected. Multiple options can be selected.
-#'                        Options:'Neo-proterozoic', 'Cambrian', 'Ordovician', 'Silurian', 'Devonian', 
-#'                        'Carboniferous', 'Permian', 'Triassic', 'Jurassic',
-#'                        Cretaceous', 'Paleogene', 'Neogene', 'Quaternary' 
-#' @param try_to_force_NG Choose if the script should try to model an element with a certain sand fraction (TRUE or FALSE).
-#'                        If 'FALSE' is selected, the script assign thickness values to mud layers without 
-#'                        trying to attain a selected sand fraction value.
-#' @param selected_NG_value Desired sand fraction of the modelled element (0-1). 
-#'                          As default the script uses the mean value calculated from the filtered dataset.
-#' @param selected_NG_margin Allowed discrepancy between desired and modelled sand fraction (0-1). Default value is 0.05.
-#' @param stochastic_bed_frequency If TRUE is selected, the bed frequency of the modelled log will be based on weighted 
-#'                                 random number generation, based on bed-type percentages calculated from the filtered 
-#'                                 dataset. 
-#' @param include_SM_beds If FALSE the generated log will not contain sand-mud heterolithic beds.
-#' @param include_G_beds If FALSE the generated log will not contain beds that have gravel facies 
-#'                      (either G, sG or gS type beds).
-#' @param selected_sand_thickness Cumulative sand thickness of the modelled element in metres. Can be a single value or a range.
-#' @param selected_sand_thickness_margin Allowed discrepancy between desired and modelled cumulative sand thickness in metres. 
-#'                                      Default value is 0.5 m.
-#' @param selected_bed_number As a default, a value calculated from total sand thickness and mean bed thickness is used. 
-#'                            Can be a single value or a range.
-#'
-#' @return
+### 3. Function
 
-#' @examples
-#'
-#' log_generator(start_seed = 1, iteration_number = 1, include_logs = TRUE, include_validating_plots = TRUE,
-#' input_bedding_data = bed_data_dummy,
-#' input_transition_data = bed_transition_data_dummy, 
-#' input_log_trend_data = thickness_trend_dummy, 
-#' input_mud_data = mud_thickness_dummy, 
-#' input_ng_data = sand_gravel_fraction_dummy,
-#' selected_sys_type = 'sandy system', 
-#' selected_element = 'terminal deposit',
-#' selected_climate = 'greenhouse',
-#' selected_sand_thickness = 8)
+The script presents a function that is capable to generate one or
+multiple synthetic sedimentary logs depicting a specified type of
+deep-marine architectural element (terminal deposit, channel or levee).
+The function returns a dataframe containing bedding information on the
+generated log(s).
+
+#### 3.1 Function parameters
+
+The function operates with a series of input parameters that govern the
+bedding properties of the generated logs for example the type of the
+element, its cumulative sand thickness, bed count, etc. (see table
+below). As the synthetic log generation is governed by geological
+analogues it requires a set of input analogue data on bedding
+properties, transitions, vertical thickness trends, mud thickness and
+sand-gravel fraction. A suitable dummy dataset is provided in the
+repository.
+
+``` r
 log_generator <- function(start_seed, iteration_number, include_logs = FALSE, include_validating_plots = FALSE,
                           input_bedding_data, input_transition_data, input_log_trend_data, input_mud_data, input_ng_data,
                           selected_sys_type = c('sandy system', 'gravelly-sand system'), 
@@ -97,26 +88,18 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
                           selected_sand_thickness,
                           selected_sand_thickness_margin = 0.5,
                           selected_bed_number = NULL
-                          ) {
+                          ) {...}
+```
 
-  
-  
-  #if certain parameters were not defined then use all option to filter
-  # if (is.null(selected_sys_type)) {
-  #   selected_sys_type <- c('sandy system', 'gravelly-sand system')
-  # }
-  # 
-  # # if (is.na(selected_climate)) {
-  # #   selected_climate <- c('greenhouse','icehouse','uncertain')
-  # # }
-  # print(selected_climate)
-  # 
-  # if (is.na(selected_period)) {
-  #   selected_period <- c('-', 'Cambrian', 'Ordovician', 'Silurian', 'Devonian', 'Carboniferous', 'Permian', 'Triassic', 'Jurassic',
-  #                        'Cretaceous', 'Paleogene', 'Neogene', 'Quaternary')
-  # }
-  
-  
+![](input_parameters.jpg)
+
+#### 3.2 Parameter default values and dataset filtering
+
+The code filters the input datasets containing geological analogues
+based on the input parameters.
+
+``` r
+ 
   #FILTERING DATASET BASED ON INPUT VALUES
   
   filtered_bed_data <- input_bedding_data %>% 
@@ -189,7 +172,16 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     stop('Invalid include_SM_beds and/or include_G_beds value try TRUE or FALSE')
   }  
   
-  
+```
+
+#### 3.3 Creating dataframes for report and sedimentary log generation
+
+The next section of the code generates dataframes and lists that will be
+populated by information on the generated logs and will be used in
+graphical log generation (if this option is selected:
+`include_logs == TRUE`)
+
+``` r
   #GENERATE DATAFRAME THAT WILL BE POPULATED BY RESULTS
   column_names <- c('seed','selected system type','selected element', 'selected climate', 'force net-to-gross', 'selected net-to-gross',
                     'net-to-gross margin','modelled net-to-gross', 'stochastic bed frequency', 'selected bed number', 'selected sand thickness (m)',
@@ -202,35 +194,61 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
   
   #DATAFRAME THAT CONTAINS COLORS FOR LOG
   
-  #COLORS
+#COLORS
   if (include_logs == TRUE | include_validating_plots == TRUE) { 
     colors_phi_df <- data.frame(
-      code = c("G-N-m",	"G-N-l",	"G-N-x",	"gS-F-m",	"gS-F-x",	"gS-N-m",	"gS-N-x",	"gS-B-m",	"gS-C-m",	"gS-B-x",	"S-N-m",	"S-N-l",	"S-N-x",	"S-F-x",	"S-F-m",	
-               "S-F-l",	"S-B-x",	"S-B-m",	"S-C-m",	"S-C-x",	"S-C-l",	"S-B-l",	"sG-F-m",	"sG-N-m",	"sG-F-x",	"sG-N-l",	"sG-N-x",	"sG-B-m",	"sG-C-m",	"SM-N-m",	
-               "SM-F-m",	"SM-N-l",	"SM-N-x",	"SM-B-x",	"SM-F-x",	"SM-C-l",	"SM-C-m",	"SM-C-x",	"SM-B-m",	"M"),
-      color = c("#BA4E22",	"#BA6933",	"#C16D0D",	"#6787B2",	"#4C7BB1",	"#28649E",	"#005890",	"#064679",	"#113350",	"#10283E",	"#FFCC00",	"#F1C754",	"#EFE977",	
-                "#2FAC66",	"#00A19A",	"#6EBD8D",	"#6A528C",	"#473781",	"#DC4541",	"#D60F3B",	"#AF1035",	"#EB5A6A",	"#6D8E40",	"#A6C176",	"#83A153",	"#CCE0A6",	
-                "#A9C965",	"#E2D158",	"#FCD760",	"#74522D",	"#8A6538",	"#9E7745",	"#AE8A4F",	"#DDC08F",	"#7A6951",	"#DA9B73",	"#D4A155",	"#BE8B5E",	"#9DA27D",
+      code = c("G-N-m",    "G-N-l",    "G-N-x",    "gS-F-m",  "gS-F-x",   "gS-N-m",  "gS-N-x",   "gS-B-m",  "gS-C-m",  "gS-B-x",   "S-N-m",   "S-N-l",    "S-N-x",    "S-F-x",    "S-F-m",   
+               "S-F-l", "S-B-x",    "S-B-m",   "S-C-m",   "S-C-x",    "S-C-l",    "S-B-l",    "sG-F-m",  "sG-N-m",  "sG-F-x",   "sG-N-l",   "sG-N-x",   "sG-B-m",  "sG-C-m",  "SM-N-m",  
+               "SM-F-m",   "SM-N-l",   "SM-N-x",   "SM-B-x",   "SM-F-x",   "SM-C-l",   "SM-C-m",  "SM-C-x",   "SM-B-m",  "M"),
+      color = c("#BA4E22",  "#BA6933",  "#C16D0D",  "#6787B2",  "#4C7BB1",  "#28649E",  "#005890",  "#064679",  "#113350",  "#10283E",  "#FFCC00",  "#F1C754",  "#EFE977",  
+                "#2FAC66",  "#00A19A",  "#6EBD8D",  "#6A528C",  "#473781",  "#DC4541",  "#D60F3B",  "#AF1035",  "#EB5A6A",  "#6D8E40",  "#A6C176",  "#83A153",  "#CCE0A6",  
+                "#A9C965",  "#E2D158",  "#FCD760",  "#74522D",  "#8A6538",  "#9E7745",  "#AE8A4F",  "#DDC08F",  "#7A6951",  "#DA9B73",  "#D4A155",  "#BE8B5E",  "#9DA27D",
                 "#C5B9B8"),
-      phi = c(5,	5,	5,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	4,	4,	4,	4,	4,	4,	4,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	1)
+      phi = c(5,    5,  5,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  4,  4,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  1)
     )
   }
+  
   
   plot_list <- list() #this list will contain generated plots, needed to save them into one PDF
   
   validating_plot_list <- list() #this list will contain generated validating plots, needed to save them into one PDF
-  
-  #LOOP THAT GENERATES A SET NUMBER OF LOGS BASED ON INPUT NUMBER, EACH OF THEM ASSOCIATED WITH A DISTINCT SEED NUMBER
-  seed <- start_seed-1
+```
+
+#### 3.4 Loop that generates a specified instances of sedimentary logs
+
+As the next step, a while loop is initiated that generates a specified
+amount of synthetic sedimentary logs (`iteration_count`) from a start
+seed (`start_seed`) that governs random number generators, used to
+ensure reproducibility. Each iteration utilizes a different seed number.
+As sedimentary log generation can fail for example if the desired
+sand-gravel thickness cannot be honored due to the low number of
+generated beds. A while loop is used instead of a for loop. In the case
+of failure at producing a realization (log), the number of total
+iterations (`iteration_number`) is increased by one (see in later
+section).
+
+``` r
+ seed <- start_seed-1
   iteration_count <- 0
 
   while (iteration_count < iteration_number) {
     seed <- seed+1
     iteration_count <- iteration_count+1
-  # for (seed in start_seed:(start_seed+iteration_number-1)) {
-    # print(seed)
-      
-    #SAND THICKNESS AND BED NUMBER: check if it is a single value or sequence of values  
+```
+
+#### 3.4.1 Select bed number, sand thickness and sand-gravel fraction
+
+Input parameters such as `selected_sand_thickness`,
+`selected_bed_number` and `selected_NG_value` can be specified as a
+range of values instead of a single integer value. The part of script
+below detects whether a range of values were supplied. In positive
+cases, the script randomly selects a value from the given range. If the
+number of beds and sand-gravel fraction are not specified, the script
+uses the mean values calculated from the input dataset of geological
+analogues.
+
+``` r
+#SAND THICKNESS AND BED NUMBER: check if it is a single value or sequence of values  
     if (length(selected_sand_thickness) > 1) {
       set.seed(seed)
       input_sand_thickness <- sample(selected_sand_thickness, 1)
@@ -262,7 +280,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     #NG value
     
     if (is.null(selected_NG_value)) {
-      input_NG_value <- input_ng_data %>% 
+      input_NG_value <- element_ng_thck_element_type %>% 
         filter(sys_gs_category %in% selected_sys_type) %>%
         filter(general_type %in% selected_element) %>% 
         filter(climate %in% selected_climate) %>%
@@ -274,8 +292,26 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
       } else {
         input_NG_value <- selected_NG_value
       }
-      
-      #BED NUMBERS
+```
+
+#### 3.4.2 Create beds
+
+The script creates a set number of beds (`selected_bed_number`). The
+type of the modelled beds can be determined using a random number
+generator that samples a probability density function (PDF) of bed type
+proportions measured on the filtered analogues dataset (if
+`stochastic_bed_frequency` set to TRUE). As an alternative, the number
+of occurrences of each bed type can be set to be proportional to the
+overall frequency of each bed type (calculated from the filtered
+dataset). However, if this option is chosen, bed-types that are less
+frequent will only be present in generated log with a large enough
+number of beds.
+
+In both cases the modelled beds are contained in a list which is
+appended to a dataframe: `combined_df`.
+
+``` r
+#BED NUMBERS
       
       #calculate the frequency of each bed type given the input parameters
 
@@ -329,8 +365,37 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
         present_bed_types <- combined_df %>% distinct(code) %>% pull(code) %>% as.list()
         
     }
-      
-      
+```
+
+#### 3.4.3 Assigning bed thickness
+
+As the next step the script assigns thickness values to the beds based
+on thickness data from the filtered analogues and the desired
+sand-gravel thickness (in meters) of the modelled log, with a margin of
+error indicated by an input variable (`selected_sand_thickness_margin`
+that has a default value of 0.5 m). For each bed type that is present in
+the generated artificial log, a lognormal distribution is fitted on the
+bed thickness values from the filtered input dataset. A lognormal
+distribution is used as a default because it is generally considered as
+a realistic approximation of the thickness distributions of beds
+observed in outcrop.
+
+A bed thickness value is assigned to each bed that builds up the
+generated sedimentary log using random number generation based on the
+properties of the respective calculated lognormal bed thickness
+distribution. This bed thickness estimation is repeated until the
+cumulative thickness of the beds falls within the range calculated from
+the desired sand-gravel thickness and the error margin. As there are
+cases when the desired sand-gravel thickness cannot be met (e.g., due to
+imbalance between sand-gravel thickness and bed number), the code stops
+assigning bed thickness values after 100 attempts and moves on to the
+generation of the next log or terminates the process depending on
+whether one or multiple logs are being generated.
+
+Bed thickness values are appended to the dataframe (`combined_df`)
+containing the modelled beds.
+
+``` r
     #ADD BED THICKNESS
       
     selected_code_thickness <- filtered_bed_data %>%
@@ -411,9 +476,21 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     #add thickness values to the dataframe
     combined_df$thck <- unlist(thickness_list)
     modeled_thck_avg <- mean(combined_df$thck)
-    
-    
-    #ADD MUD BEDS FROM TRANSITION PROBABILITIES
+```
+
+#### 3.4.4 Assigning overlying type
+
+Transition probabilities for each bed type were used to determine
+whether each output bed is overlain by another sand bed or by mud, using
+a weighted random number generator, for which the weights are based on
+the calculated transition probabilities (based on data from the provided
+`input_transition_data` dataframe).
+
+Overlying types are appended into a new column in the `combined_df`
+dataframe.
+
+``` r
+#ADD MUD BEDS FROM TRANSITION PROBABILITIES
 
     random_trans_list <- list()
     for (bed_type in present_bed_types) {
@@ -434,8 +511,34 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     
     #add transitions to the dataframe
     combined_df$trans <- unlist(random_trans_list)
-      
-    #ORDER BED TYPES
+```
+
+#### 3.4.5 Order modelled beds based on thickness trend
+
+As the next step, the modelled sand/gravel beds are rearranged so that
+any vertical bed thickness trend that may be observed in the selected
+input analogues is reproduced. To achieve this, firstly, the frequency
+of upward thinning or upward thickening logs in the filtered dataset
+(`input_log_trend_data`) are used together with a weighted random number
+generator to determine whether the modelled log will display thinning or
+thickening upward trends. Secondly, a while loop rearranges the bed
+entries in the produced dataframe until the calculated ‘thickness trend
+value’ falls within the range (minimum- maximum) of values of the
+filtered analogue dataset.
+
+The ’thickness trend value’ was calculated as follows: (i) the
+difference between the thickness of each bed and the thickness of the
+bed above was computed, considering both beds that are in direct
+contact, as well as beds separated by mud intercalations; (ii) the total
+sum of these differences was divided by the sum of the thickness of the
+beds, to make the different logs comparable. If the calculated value was
+positive (i.e. the magnitude and/or number of positive vertical
+thickness changes outweighs the negative ones), then that specific 1D
+representation of the element is defined as ‘thickening upward’; if the
+value is negative the element is treated as ‘thinning upward’.
+
+``` r
+#ORDER BED TYPES
       
     #create probabilities for negative, zero and positive log_trend_value from log_vertical_bed_thickness
       
@@ -493,10 +596,28 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
       
     #changes the combined df to the ordered df
     combined_df <- random_ordered_combined_df
-      
+```
 
-      
-    #ADD MUD THICKNESS
+#### 3.4.6 Assign mud thickness
+
+The thickness of the muddy intervals in the generated log are assigned
+using a lognormal distribution fitted to the mud thickness dataset
+filtered by the input variables (`input_mud_data`). If specified by the
+dedicated Boolean variable (`try_to_force_NG`), the code keeps assigning
+thickness values to the muddy intervals present in the generated log
+until a selected sand-gravel fraction is met. If this value cannot be
+reached within 100 iterations the code exits the loop. This may happen
+due to the low number of muddy intervals in the generated log, arising
+from the random sampling of transition probabilities. If a specific
+sand-gravel fraction is not requested thickness values are assigned to
+muddy intervals from the fitted lognormal distribution without any
+control on their cumulative thickness.
+
+Mud thickness values are appended to a list and will be merged with the
+modelled beds during the next step.
+
+``` r
+#ADD MUD THICKNESS
       
     #get number of mud beds based on transitions
     number_of_mud_beds <- nrow(combined_df[combined_df$trans == 'M',])
@@ -562,10 +683,19 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
         modelled_NG <- round(sum_sand_thickness/(sum_sand_thickness+sum_mud_thickness),2)
         ng_calc <- 'not forced'
     }  
-      
-      
-      
-    #ORDER THE DATAFRAME
+```
+
+#### 3.4.7 Reorganize the dataframe
+
+In the `combined_df` dataframe, overlying mudstone layers are located in
+a separate column (trans). To create a log the subsequent layers need to
+be located within one column. This part of the code creates a new
+dataframe called `combined_df_ordered` that suits this criteria and
+assigns the previously estimated mud thickness values to the mud
+intervals.
+
+``` r
+ #ORDER THE DATAFRAME
     
     combined_df <- combined_df %>% mutate_at(c('trans'), as.character)
       
@@ -597,8 +727,23 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
         
       }
       
-      
-    #GENERATE OUTPUTS
+```
+
+#### 3.5 Create outputs (report and logs)
+
+The outputs include a text output in the form of a CSV file containing
+seed number, input variables and properties calculated for each of the
+modelled log generated simultaneously, including modelled sand and mud
+thickness, element thickness and sand-gravel fraction, and ‘thickness
+trend value’.
+
+Optional graphical outputs include the generated log(s) in PDF format.
+The optional generation of graphical logs is governed by the
+`include_logs` parameter. Setting it to FALSE decreases the running time
+of the script.
+
+``` r
+ #GENERATE OUTPUTS
       
     #REPORT VALUES
     report_list <- c(seed,
@@ -670,10 +815,19 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
   
       print(log_plot)
     } 
+```
+
+#### 3.6 Create validating plots
+
+A second type of optional graphical output (`include_validating_plots`)
+contains summary data on sand-gravel fraction, mud thickness, vertical
+thickness trends and bed thickness obtained from the dataset filtered by
+the input variables. These plots also show how the same values of the
+modelled log compare to the entirety of the filtered dataset.
+
+``` r
+#GENERATE VALIDATING PLOTS
       
-    #GENERATE VALIDATING PLOTS
-      
-    #N-G comparison plot
     if (include_validating_plots == TRUE) {
       
       title <- paste('seed = ', seed, sep = '')
@@ -826,9 +980,18 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     }
       
     print(paste('Log generation with seed:',seed, ' is finished', sep = ''))
-  } #end of for loop
-  
-  #CREATE DIRECTORY AND SAVING OUTPUTS
+  } #end of loop
+```
+
+#### 3.7 Save outputs
+
+The outputs are saved in a folder named after the modelled element.The
+name of each output file contains the seed number, the element number,
+the type of the output file and a timestamp indicating the time when the
+code ran.
+
+``` r
+#CREATE DIRECTORY AND SAVING OUTPUTS
   
   #create folder for outputs
   
@@ -887,32 +1050,25 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     
   
 }
+```
 
+### 4. Example run
 
+``` r
+example1 <- log_generator(start_seed = 1, iteration_number = 12,
+                      input_bedding_data = bed_data_dummy,
+                      input_transition_data = bed_transition_data_dummy, 
+                      input_log_trend_data = thickness_trend_dummy, 
+                      input_mud_data = mud_thickness_dummy, 
+                      input_ng_data = sand_gravel_fraction_dummy,
+                      selected_sys_type = 'sandy system', 
+                      selected_element = 'channel',
+                      selected_climate = 'greenhouse',
+                      selected_sand_thickness = seq(10,22),
+                      selected_bed_number = seq(12,30))
 
-
-
-
-
-example1 <- log_generator(start_seed = 1, 
-                          iteration_number = 10,
-                          include_logs = TRUE, 
-                          include_validating_plots = TRUE,
-                          input_bedding_data = bed_data_dummy,
-                          input_transition_data = bed_transition_data_dummy, 
-                          input_log_trend_data = thickness_trend_dummy, 
-                          input_mud_data = mud_thickness_dummy, 
-                          input_ng_data = sand_gravel_fraction_dummy,
-                          selected_sys_type = 'gravelly-sand system', 
-                          selected_element = 'channel',
-                          selected_climate = c('greenhouse'),
-                          selected_sand_thickness = seq(10,22),
-                          selected_bed_number = seq(12,30))
-
-
-
-
-example2 <- log_generator(start_seed = 1, iteration_number = 10, include_logs = TRUE, include_validating_plots = TRUE,
+example2 <- log_generator(start_seed = 1, iteration_number = 1, include_logs = TRUE,  
+                      include_validating_plots = TRUE,
                       input_bedding_data = bed_data_dummy,
                       input_transition_data = bed_transition_data_dummy, 
                       input_log_trend_data = thickness_trend_dummy, 
@@ -922,3 +1078,4 @@ example2 <- log_generator(start_seed = 1, iteration_number = 10, include_logs = 
                       selected_element = 'terminal deposit',
                       selected_climate = 'greenhouse',
                       selected_sand_thickness = 8)
+```

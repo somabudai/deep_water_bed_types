@@ -9,8 +9,8 @@ classification for a global comparison of deep-water systems”**
 
 contact: soma.budai@unipv.it
 
-Two codes are presented in this repository located in separate folders.
-The Deep-Water bed classifier R script (DW-BC) can used to classify
+This repository contains two R codes located in separate folders. The
+Deep-Water Bed Classifier R script (DW-BC) can used to classify
 deep-water beds into pre-defined bed-types (described in the article)
 based on their internal facies. The second script, Deep-Water
 Sedimentary Log Generator (DW-SLG) utilizes a compiled dataset and the
