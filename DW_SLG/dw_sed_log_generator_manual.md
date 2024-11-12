@@ -72,8 +72,13 @@ sand-gravel fraction. A suitable dummy dataset is provided in the
 repository.
 
 ``` r
-log_generator <- function(start_seed, iteration_number, include_logs = FALSE, include_validating_plots = FALSE,
-                          input_bedding_data, input_transition_data, input_log_trend_data, input_mud_data, input_ng_data,
+log_generator <- function(start_seed, iteration_number, 
+                          include_logs = FALSE, include_validating_plots = FALSE,
+                          input_bedding_data, 
+                          input_transition_data, 
+                          input_log_trend_data, 
+                          input_mud_data, 
+                          input_ng_data,
                           selected_sys_type = c('sandy system', 'gravelly-sand system'), 
                           selected_element, 
                           selected_climate = c('greenhouse', 'icehouse'), 
