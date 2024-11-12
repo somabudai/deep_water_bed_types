@@ -1,0 +1,321 @@
+element_ID,element_general_type
+2,terminal deposit
+3,terminal deposit
+42,channel
+50,levee
+52,channel
+54,levee
+67,terminal deposit
+68,terminal deposit
+76,terminal deposit
+273,levee
+279,channel
+280,channel
+282,channel
+283,channel
+284,channel
+286,channel
+287,channel
+424,channel
+428,channel
+429,channel
+430,channel
+432,channel
+433,channel
+449,channel
+450,channel
+451,channel
+454,channel
+460,channel
+682,levee
+684,levee
+746,channel
+1228,terminal deposit
+1229,terminal deposit
+1230,terminal deposit
+1231,terminal deposit
+1232,terminal deposit
+1233,terminal deposit
+1234,terminal deposit
+1235,terminal deposit
+1236,terminal deposit
+1238,terminal deposit
+1239,terminal deposit
+1240,terminal deposit
+1241,terminal deposit
+1242,terminal deposit
+1271,channel
+1273,channel
+1274,channel
+1277,channel
+1280,channel
+1281,channel
+1282,channel
+1285,channel
+1291,channel
+1294,channel
+1296,channel
+1297,channel
+1298,channel
+1299,channel
+1303,channel
+1307,channel
+1310,channel
+1311,channel
+1324,channel
+1325,channel
+1326,channel
+1328,channel
+1329,channel
+1334,channel
+1339,channel
+1341,channel
+1358,channel
+1359,channel
+1360,channel
+1390,channel
+1391,channel
+1392,channel
+1393,channel
+1397,terminal deposit
+1398,terminal deposit
+1399,terminal deposit
+1400,terminal deposit
+3228,terminal deposit
+3231,terminal deposit
+3233,terminal deposit
+3281,terminal deposit
+3282,terminal deposit
+3283,terminal deposit
+3284,terminal deposit
+3285,terminal deposit
+3286,terminal deposit
+3288,terminal deposit
+3290,terminal deposit
+3292,terminal deposit
+3293,terminal deposit
+3295,terminal deposit
+3297,terminal deposit
+3298,terminal deposit
+3299,terminal deposit
+3301,terminal deposit
+3302,terminal deposit
+3304,terminal deposit
+3305,terminal deposit
+3306,terminal deposit
+3308,terminal deposit
+3310,terminal deposit
+3312,terminal deposit
+3314,terminal deposit
+3316,terminal deposit
+3318,terminal deposit
+3319,terminal deposit
+3321,terminal deposit
+3322,terminal deposit
+3323,terminal deposit
+3324,terminal deposit
+3325,terminal deposit
+3326,terminal deposit
+3327,terminal deposit
+3329,terminal deposit
+3330,terminal deposit
+3332,terminal deposit
+3334,terminal deposit
+3336,terminal deposit
+3338,terminal deposit
+3340,terminal deposit
+3450,terminal deposit
+3469,terminal deposit
+3472,terminal deposit
+3474,terminal deposit
+3476,terminal deposit
+3477,terminal deposit
+3481,terminal deposit
+3487,terminal deposit
+3492,terminal deposit
+3493,terminal deposit
+3496,terminal deposit
+3497,terminal deposit
+3499,terminal deposit
+3501,terminal deposit
+3502,terminal deposit
+3503,levee
+3504,terminal deposit
+3505,channel
+3506,terminal deposit
+3507,terminal deposit
+3550,terminal deposit
+3551,channel
+3552,channel
+3553,channel
+3554,channel
+3557,channel
+3558,terminal deposit
+3561,channel
+3565,channel
+3567,channel
+3571,channel
+3573,terminal deposit
+4598,terminal deposit
+4599,terminal deposit
+4600,terminal deposit
+4601,terminal deposit
+4606,channel
+4607,terminal deposit
+4608,terminal deposit
+4609,terminal deposit
+4610,terminal deposit
+4611,terminal deposit
+4612,terminal deposit
+4613,terminal deposit
+4614,terminal deposit
+4615,terminal deposit
+4616,terminal deposit
+4617,terminal deposit
+4618,terminal deposit
+4619,terminal deposit
+4620,terminal deposit
+4621,levee
+4623,channel
+4625,terminal deposit
+10036,levee
+10122,channel
+10123,channel
+10124,channel
+10125,channel
+10126,channel
+10137,channel
+10241,channel
+10247,channel
+10248,channel
+10249,channel
+10251,channel
+10253,channel
+10257,channel
+10265,channel
+10266,channel
+10267,channel
+10268,channel
+10273,levee
+10274,levee
+10278,levee
+10280,levee
+10302,levee
+10307,levee
+10318,channel
+10319,channel
+11612,levee
+12203,channel
+12205,channel
+12208,channel
+12209,channel
+12210,channel
+12211,channel
+12212,channel
+12217,channel
+12218,channel
+12219,channel
+12220,channel
+12291,terminal deposit
+12292,terminal deposit
+12293,terminal deposit
+12295,channel
+12296,channel
+12303,terminal deposit
+12305,terminal deposit
+12306,terminal deposit
+12307,terminal deposit
+12470,terminal deposit
+12478,terminal deposit
+12481,channel
+12482,channel
+12483,channel
+12484,channel
+12485,channel
+12486,channel
+12487,channel
+12488,channel
+12489,channel
+12490,channel
+12491,channel
+12492,channel
+12493,channel
+12494,channel
+12495,channel
+12496,channel
+12497,channel
+12498,channel
+12499,channel
+12502,channel
+12503,channel
+12504,channel
+12505,channel
+12509,channel
+12510,channel
+12511,channel
+12512,channel
+12513,channel
+12514,channel
+12515,channel
+12516,channel
+12517,channel
+12518,channel
+12522,levee
+12524,levee
+12526,channel
+12529,channel
+12530,channel
+12531,channel
+12532,channel
+12533,channel
+12534,channel
+12535,channel
+20001,levee
+20002,levee
+20005,channel
+20006,levee
+20008,levee
+20009,channel
+20010,levee
+20013,channel
+20014,levee
+20072,levee
+20079,levee
+20080,channel
+20087,terminal deposit
+20088,terminal deposit
+20090,terminal deposit
+20091,terminal deposit
+20093,terminal deposit
+20094,terminal deposit
+20096,terminal deposit
+20097,terminal deposit
+20102,terminal deposit
+20103,terminal deposit
+20104,terminal deposit
+20105,terminal deposit
+20106,terminal deposit
+20107,channel
+20108,channel
+20109,channel
+20110,terminal deposit
+20111,terminal deposit
+20112,levee
+20139,levee
+22815,channel
+22816,channel
+22817,channel
+22818,channel
+22819,channel
+22821,channel
+22822,channel
+22823,channel
+22824,channel
+22825,channel
+22826,channel
+22827,channel
+22828,channel
+22839,channel
+22840,channel
+22841,channel
+22842,channel

@@ -1,13 +1,12 @@
-library(RMariaDB)
-library(ggplot2)
+
 library(dplyr)
-library(stringr)
+
 
 #READ DUMMY DATA
 
-facies_data_dummy <- read.csv('DW_BC/facies_data_dummy.csv', header = TRUE)
-system_data_dummy <- read.csv('DW_BC/system_data_dummy.csv', header = TRUE)
-element_data_dummy <-  read.csv('DW_BC/element_data_dummy.csv', header = TRUE)
+facies_data_dummy <- read.csv('DW_BC/dummy_dataset/facies_data_dummy.csv', header = TRUE)
+system_data_dummy <- read.csv('DW_BC/dummy_dataset/system_data_dummy.csv', header = TRUE)
+element_data_dummy <-  read.csv('DW_BC/dummy_dataset/element_data_dummy.csv', header = TRUE)
 
 
 #FUNCTION
@@ -232,4 +231,3 @@ classification_test <- bed_classifier(facies_data = facies_data_dummy, include_v
                                                  system_data = system_data_dummy, include_system_info = TRUE, 
                                                  element_data = element_data_dummy, include_element_info = TRUE)
 
-write.csv(classification_test, file = 'C:/Users/SomaBudai/Desktop/DMAKS/bedding_project/deep_water_bed_types/DW_BC/example_results/bed_data.csv', row.names = FALSE)

@@ -3,16 +3,16 @@ library('MASS')
 library(ggplot2)
 library(dplyr)
 library(ggpubr)
-library(pracma)
+
 
 
 #READ DATA FILES
 
-bed_data_dummy <- read.csv('DW_SLG/bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('DW_SLG/bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('DW_SLG/thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('DW_SLG/sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('DW_SLG/mud_thickness_dummy.csv', header = TRUE)
+bed_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('DW_SLG/dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('DW_SLG/dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('DW_SLG/dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
 
 
 #' Log generator
@@ -211,8 +211,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
   while (iteration_count < iteration_number) {
     seed <- seed+1
     iteration_count <- iteration_count+1
-  # for (seed in start_seed:(start_seed+iteration_number-1)) {
-    # print(seed)
+  
       
     #SAND THICKNESS AND BED NUMBER: check if it is a single value or sequence of values  
     if (length(selected_sand_thickness) > 1) {
@@ -242,6 +241,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     } else {
         input_bed_number <- selected_bed_number
     }
+    
     
     #NG value
     
@@ -290,7 +290,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
           
         number_of_bed_type <- bed_occurrence %>% filter(code == code_input) %>% pull(bed_type_n)
         
-        print(number_of_bed_type)
+        # print(number_of_bed_type)
           
         for (i in 1:number_of_bed_type ) {
             
@@ -527,7 +527,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
         set.seed(seed_mud_thck)
         mud_thickness_list <- rlnorm(number_of_mud_beds,meanlog_mud,sdlog_mud)
         sum_mud_thickness <- sum(unlist(mud_thickness_list))
-        print(sum_mud_thickness)
+        # print(sum_mud_thickness)
         modelled_element_thickness <- sum_sand_thickness+sum_mud_thickness
         modelled_NG <- round(sum_sand_thickness/modelled_element_thickness,2)
         ng_calc <- 'forced'
@@ -887,8 +887,8 @@ example1 <- log_generator(start_seed = 1,
                           input_log_trend_data = thickness_trend_dummy, 
                           input_mud_data = mud_thickness_dummy, 
                           input_ng_data = sand_gravel_fraction_dummy,
-                          selected_sys_type = 'gravelly-sand system', 
-                          selected_element = 'channel',
+                          selected_sys_type = 'sandy system', 
+                          selected_element = 'terminal deposit',
                           selected_climate = c('greenhouse'),
                           selected_sand_thickness = seq(10,22),
                           selected_bed_number = seq(12,30))
@@ -896,13 +896,20 @@ example1 <- log_generator(start_seed = 1,
 
 
 
-example2 <- log_generator(start_seed = 1, iteration_number = 10, include_logs = TRUE, include_validating_plots = TRUE,
+example2 <- log_generator(start_seed = 1, iteration_number = 10, include_logs = FALSE, include_validating_plots = FALSE,
                       input_bedding_data = bed_data_dummy,
                       input_transition_data = bed_transition_data_dummy, 
                       input_log_trend_data = thickness_trend_dummy, 
                       input_mud_data = mud_thickness_dummy, 
                       input_ng_data = sand_gravel_fraction_dummy,
-                      selected_sys_type = 'sandy system', 
+                      selected_sys_type = c('sandy system'),
                       selected_element = 'terminal deposit',
-                      selected_climate = 'greenhouse',
-                      selected_sand_thickness = 8)
+                      selected_climate = c('greenhouse', 'icehouse'), 
+                      selected_period = c('-', 'Cambrian', 'Ordovician', 'Silurian', 'Devonian', 'Carboniferous', 'Permian', 'Triassic', 'Jurassic',
+                                          'Cretaceous', 'Paleogene', 'Neogene'),
+                      selected_sand_thickness = seq(16,22),
+                      selected_bed_number = seq(12,30),
+                      try_to_force_NG = TRUE,
+                      selected_NG_value = 0.8,
+                      selected_NG_margin = 0.3
+                      )
