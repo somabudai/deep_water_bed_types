@@ -49,9 +49,10 @@ mud_thickness_dummy <- read.csv('dummy_dataset/mud_thickness_dummy.csv', header 
 #'                        (periods of the geological time scale). 
 #'                        It allows the exclusion of e.g. Quaternary deposits from the bed type statistics. 
 #'                        By default, the whole geological time scale is selected. Multiple options can be selected.
-#'                        Options:'Neo-proterozoic', 'Cambrian', 'Ordovician', 'Silurian', 'Devonian', 
+#'                        Options:'-', 'Cambrian', 'Ordovician', 'Silurian', 'Devonian', 
 #'                        'Carboniferous', 'Permian', 'Triassic', 'Jurassic',
 #'                        Cretaceous', 'Paleogene', 'Neogene', 'Quaternary' 
+#'                        '-' represents Neo-proterozoic
 #' @param try_to_force_NG Choose if the script should try to model an element with a certain sand fraction (TRUE or FALSE).
 #'                        If 'FALSE' is selected, the script assign thickness values to mud layers without 
 #'                        trying to attain a selected sand fraction value.
@@ -90,7 +91,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
                           selected_element, 
                           selected_climate = c('greenhouse', 'icehouse'), 
                           selected_period = c('-', 'Cambrian', 'Ordovician', 'Silurian', 'Devonian', 'Carboniferous', 'Permian', 'Triassic', 'Jurassic',
-                                              'Cretaceous', 'Paleogene', 'Neogene', 'Quaternary'),
+                                              'Cretaceous', 'Paleogene', 'Neogene', 'Quaternary'), # '-' represents Neo-proterozoic
                           try_to_force_NG = FALSE,
                           selected_NG_value = NULL,
                           selected_NG_margin = 0.05,
@@ -874,9 +875,6 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
     
   
 }
-
-
-
 
 
 
