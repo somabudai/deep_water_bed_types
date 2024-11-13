@@ -1,5 +1,6 @@
 
 library(dplyr)
+library(stringr)
 
 
 #READ DUMMY DATA

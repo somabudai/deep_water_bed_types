@@ -17,10 +17,11 @@ by sediment gravity flows.
 
 ``` r
 library(dplyr)
+library(stringr)
 ```
 
-In order to run, the script only requires the `dplyr` package for the
-manipulation dataframes.
+In order to run, the script requires the `dplyr` and `stringr` package
+for the manipulation dataframes and strings.
 
 #### 2. Reading dataset
 

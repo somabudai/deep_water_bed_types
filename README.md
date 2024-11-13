@@ -1,6 +1,6 @@
 # Bed classifier and synthetic log generator
 
-2024-11-12
+2024-11-13
 
 This repository is linked to the manuscript: **“Quantitative bed-type
 classification for a global comparison of deep-water systems”**
@@ -33,6 +33,8 @@ Both scripts are supplied with example outputs.
 - ggplot2 (3.5.1)
 
 - ggpubr (0.6.0)
+
+- stringr (1.5.1)
 
 ### How to run the scripts
 
