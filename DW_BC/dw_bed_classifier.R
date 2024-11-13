@@ -6,6 +6,7 @@ library(dplyr)
 
 #Path to files might need to be changed depending on the
 #location of the users project file or if the folder structure is changed
+#Errors can be avoided by pasting the whole path to the files!
 
 facies_data_dummy <- read.csv('dummy_dataset/facies_data_dummy.csv', header = TRUE)
 system_data_dummy <- read.csv('dummy_dataset/system_data_dummy.csv', header = TRUE)
