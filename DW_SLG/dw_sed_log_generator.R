@@ -86,6 +86,8 @@ mud_thickness_dummy <- read.csv('dummy_dataset/mud_thickness_dummy.csv', header 
 #' selected_element = 'terminal deposit',
 #' selected_climate = 'greenhouse',
 #' selected_sand_thickness = 8)
+
+
 log_generator <- function(start_seed, iteration_number, include_logs = FALSE, include_validating_plots = FALSE,
                           input_bedding_data, input_transition_data, input_log_trend_data, input_mud_data, input_ng_data,
                           selected_sys_type = c('sandy system', 'gravelly-sand system'), 
@@ -878,8 +880,6 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
 }
 
 
-
-
 example1 <- log_generator(start_seed = 1, 
                           iteration_number = 10,
                           include_logs = TRUE, 
@@ -894,8 +894,6 @@ example1 <- log_generator(start_seed = 1,
                           selected_climate = c('greenhouse'),
                           selected_sand_thickness = seq(10,22),
                           selected_bed_number = seq(12,30))
-
-
 
 
 example2 <- log_generator(start_seed = 1, iteration_number = 10, include_logs = FALSE, include_validating_plots = FALSE,
