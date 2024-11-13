@@ -23,19 +23,21 @@ library(stringr)
 In order to run, the script requires the `dplyr` and `stringr` package
 for the manipulation dataframes and strings.
 
-#### 2. Reading dataset
+#### 2. Loading dummy dataset
 
 The script utilizes one mandatary dataset containing facies data and two
 other optional datasets containing data on deep-water depositional
 systems and architectural elements linked to the deposits. In the
 illustrative example presented here, the script is supplied with three
 dummy datasets containing partially redacted data extracted from the
-DMAKS database.
+DMAKS database. If the script is opened separately not as part of the R
+project provided path to the files should be changed. Errors can be
+avoided by pasting the whole path to the files!
 
 ``` r
-facies_data_dummy <- read.csv('dummy_dataset/facies_data_dummy.csv', header = TRUE)
-system_data_dummy <- read.csv('dummy_dataset/system_data_dummy.csv', header = TRUE)
-element_data_dummy <-  read.csv('dummy_dataset/element_data_dummy.csv', header = TRUE)
+facies_data_dummy <- read.csv('DW_BC/dummy_dataset/facies_data_dummy.csv', header = TRUE)
+system_data_dummy <- read.csv('DW_BC/dummy_dataset/system_data_dummy.csv', header = TRUE)
+element_data_dummy <-  read.csv('DW_BC/dummy_dataset/element_data_dummy.csv', header = TRUE)
 ```
 
 #### 3. Function

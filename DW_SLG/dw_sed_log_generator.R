@@ -8,15 +8,17 @@ library(ggpubr)
 
 #READ DUMMY DATA FILES
 
+#IMPORTANT!
 #Path to files might need to be changed depending on the
 #location of the users project file or if the folder structure is changed
+#If opened as separate file not as the R project (deep_water_bed_types.Rproj) use: 'dummy_dataset/file_name.csv' as path!
 #Errors can be avoided by pasting the whole path to the files!
 
-bed_data_dummy <- read.csv('dummy_dataset/bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
+bed_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('DW_SLG/dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('DW_SLG/dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('DW_SLG/dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
 
 
 #' Log generator

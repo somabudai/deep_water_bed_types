@@ -38,19 +38,21 @@ dataframes (`dplyr`), create plots (`ggplot2`) stitch plots together to
 a single figure (`ggpubr`) and fit distribution on thickness data
 (`MASS`).
 
-### 2. Loading dataset
-
-``` r
-bed_data_dummy <- read.csv('dummy_dataset/bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
-```
+### 2. Loading dummy dataset
 
 The code is supplied with dummy datasets in the form of .csv files. Data
 contained in these dummy datasets are utilized in the example
-application of the script.
+application of the script. If the script is opened separately not as
+part of the R project provided path to the files should be changed.
+Errors can be avoided by pasting the whole path to the files!
+
+``` r
+bed_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('DW_SLG/dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('DW_SLG/dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('DW_SLG/dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
+```
 
 ### 3. Function
 

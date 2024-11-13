@@ -1,9 +1,10 @@
-# Bed classifier and synthetic log generator
+# Deep-Water Bed classifier and Seidmentary Log Generator
 
 2024-11-13
 
 This repository is linked to the manuscript: **“Quantitative bed-type
-classification for a global comparison of deep-water systems”**
+classification for a global comparison of deep-water sedimentary
+systems”**
 
 **Authors: Budai, S., Colombera, L., McArthur, A. and Patacci, M.**
 
@@ -19,8 +20,9 @@ representation of terminal deposit, channel and levee elements in the
 form of sedimentary logs.
 
 Both scripts are supplied with dummy datasets as .csv files, to access
-these datasets without modifying the code they should be located in the
-same folder as the script files.
+these datasets without modifying the code the folder hierarchy of the
+repository should not be changed and the R project file should be used.
+Further information can be read in the manuals linked to the scripts.
 
 Both scripts are supplied with example outputs.
 
@@ -40,4 +42,5 @@ Both scripts are supplied with example outputs.
 
 After download the .R files can be opened and run in any IDE capable to
 run R scripts (the presented codes were written and tested in RStudio
-(version 2024.09.0+375)).
+(version 2024.09.0+375)). An R project file named
+deep_water_bed_types.Rpro is also provided.

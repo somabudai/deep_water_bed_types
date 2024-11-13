@@ -5,13 +5,15 @@ library(stringr)
 
 #READ DUMMY DATA
 
+#IMPORTANT!
 #Path to files might need to be changed depending on the
 #location of the users project file or if the folder structure is changed
+#If opened as separate file not as the R project (deep_water_bed_types.Rproj) use: 'dummy_dataset/file_name.csv' as path!
 #Errors can be avoided by pasting the whole path to the files!
 
-facies_data_dummy <- read.csv('dummy_dataset/facies_data_dummy.csv', header = TRUE)
-system_data_dummy <- read.csv('dummy_dataset/system_data_dummy.csv', header = TRUE)
-element_data_dummy <-  read.csv('dummy_dataset/element_data_dummy.csv', header = TRUE)
+facies_data_dummy <- read.csv('DW_BC/dummy_dataset/facies_data_dummy.csv', header = TRUE)
+system_data_dummy <- read.csv('DW_BC/dummy_dataset/system_data_dummy.csv', header = TRUE)
+element_data_dummy <-  read.csv('DW_BC/dummy_dataset/element_data_dummy.csv', header = TRUE)
 
 #FUNCTION
 
