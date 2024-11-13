@@ -6,13 +6,16 @@ library(ggpubr)
 
 
 
-#READ DATA FILES
+#READ DUMMY DATA FILES
 
-bed_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('DW_SLG/dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('DW_SLG/dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('DW_SLG/dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('DW_SLG/dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
+#Path to files might need to be changed depending on the
+#location of the users project file or if the folder structure is changed
+
+bed_data_dummy <- read.csv('dummy_dataset/bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
 
 
 #' Log generator
@@ -67,7 +70,7 @@ mud_thickness_dummy <- read.csv('DW_SLG/dummy_dataset/mud_thickness_dummy.csv', 
 #' @param selected_bed_number As a default, a value calculated from total sand thickness and mean bed thickness is used. 
 #'                            Can be a single value or a range.
 #'
-#' @return
+#' @return The script returns a dataframe containing bedding properties of the modelled logs.
 
 #' @examples
 #'
@@ -660,7 +663,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
   
     if (include_validating_plots == TRUE) {
       
-      title <- paste('seed = ', seed, sep = '')
+      title <- paste('seed = ', seed, ' element type = ', selected_element,sep = '')
       subtitle <- paste(selected_element,'\nsand thck=',  round(sum_sand_thickness,2), sep = '')
       
       selected_NG_data <- input_ng_data %>% 
@@ -727,25 +730,25 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
       
       #mud thickness validating plot
       
-      
+      #If modelled log doesnt have mud layers then only the mud thickness of the analogues data is being plotted
       if (nrow(dplyr::filter(combined_df_mud, code == "M")) > 0) {
         mud_thickness_validating_plot <- ggplot()+
           geom_boxplot(data = selected_mud_thickness_values, aes(x=facies_type, y = stacked_thickness), outlier.shape = 4, outlier.alpha = 0.5, lwd=0.23, width = 0.6)+
           stat_summary(fun.y = 'mean', size = 0.2, shape = 15)+
-          geom_text(aes(label = paste('n=',nrow(selected_mud_thickness_values), sep = '')), x=0.75, y=0.75, size = 11/.pt)+
+          geom_text(aes(label = paste('n=',nrow(selected_mud_thickness_values), sep = '')), x=0.75, y=0.75, size = 7/.pt)+
           geom_point(data = combined_df_mud, aes(y=thck), x = 'M', size = 4, shape = 23, fill = 'red', alpha = 0.5, stroke = 0.12,)+
-          geom_text(aes(label = paste('n=',nrow(combined_df_mud), sep = '')), y=0.70, x=0.75, size = 11/.pt, color = 'red')+
+          geom_text(aes(label = paste('n=',nrow(combined_df_mud), sep = '')), y=0.70, x=0.75, size = 7/.pt, color = 'red')+
           coord_cartesian(ylim = c(0,0.75))+
           scale_y_continuous(breaks = seq(0,0.75, by = 0.25))+
           theme_classic()+
           theme(
-            axis.text.x = element_text(color = "black", size = 12),
+            axis.text.x = element_text(color = "black", size = 9),
             axis.title.x=element_blank(),
             axis.line = element_line(colour = 'black', size = 0.24),
             axis.ticks = element_line(colour = 'black', size = 0.24),
-            axis.text.y = element_text(color = "black", size = 12),
-            axis.title.y = element_text(color = "black", size = 12),
-            plot.title = element_text(color = 'black', size = 14, face = "bold"),
+            axis.text.y = element_text(color = "black", size = 9),
+            axis.title.y = element_text(color = "black", size = 9),
+            plot.title = element_text(color = 'black', size = 10),
             legend.position = 'bottom')+
           labs(
             title = 'Mud thickness',
@@ -760,13 +763,13 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
           scale_y_continuous(breaks = seq(0,0.75, by = 0.25))+
           theme_classic()+
           theme(
-            axis.text.x = element_text(color = "black", size = 12),
+            axis.text.x = element_text(color = "black", size = 9),
             axis.title.x=element_blank(),
             axis.line = element_line(colour = 'black', size = 0.24),
             axis.ticks = element_line(colour = 'black', size = 0.24),
-            axis.text.y = element_text(color = "black", size = 12),
-            axis.title.y = element_text(color = "black", size = 12),
-            plot.title = element_text(color = 'black', size = 14, face = "bold"),
+            axis.text.y = element_text(color = "black", size = 9),
+            axis.title.y = element_text(color = "black", size = 9),
+            plot.title = element_text(color = 'black', size = 10),
             legend.position = 'bottom')+
           labs(
             title = 'Mud thickness',
@@ -802,7 +805,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
         nrow = 2
       )
       
-      annotate_figure(validating_plots, top = text_grob(title))
+      validating_plots <- annotate_figure(validating_plots, top = text_grob(title, size = 10))
       
       validating_plot_list[[length(validating_plot_list)+1]] = validating_plots
       
@@ -888,7 +891,7 @@ example1 <- log_generator(start_seed = 1,
                           input_mud_data = mud_thickness_dummy, 
                           input_ng_data = sand_gravel_fraction_dummy,
                           selected_sys_type = 'sandy system', 
-                          selected_element = 'terminal deposit',
+                          selected_element = 'channel',
                           selected_climate = c('greenhouse'),
                           selected_sand_thickness = seq(10,22),
                           selected_bed_number = seq(12,30))

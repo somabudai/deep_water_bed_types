@@ -1,0 +1,2 @@
+"seed","selected system type","selected element","selected climate","force net-to-gross","selected net-to-gross","net-to-gross margin","modelled net-to-gross","stochastic bed frequency","selected bed number","selected sand thickness (m)","sand thickness margin","modelled sand thickness (m)","modelled mud thickness (m)","modelled element thickness (m)","modelled sand-gravel fraction","vertical trend"
+"1","sandy system","terminal deposit","greenhouse","FALSE","0.7","0.05","0.87","TRUE","15","18","0.5","18.06","2.58","20.64","0.87","0.04"

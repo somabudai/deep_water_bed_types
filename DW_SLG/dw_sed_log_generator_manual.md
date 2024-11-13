@@ -1,6 +1,6 @@
 # Deep-Water Sedimentary Log Generator
 
-2024-11-12
+2024-11-13
 
 **Authors:** Budai, S., Colombera, L., McArthur, A. and Patacci, M.
 
@@ -41,11 +41,11 @@ a single figure (`ggpubr`) and fit distribution on thickness data
 ### 2. Loading dataset
 
 ``` r
-bed_data_dummy <- read.csv('DW_SLG/bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('DW_SLG/bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('DW_SLG/thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('DW_SLG/sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('DW_SLG/mud_thickness_dummy.csv', header = TRUE)
+bed_data_dummy <- read.csv('bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('mud_thickness_dummy.csv', header = TRUE)
 ```
 
 The code is supplied with dummy datasets in the form of .csv files. Data
@@ -831,11 +831,7 @@ the input variables. These plots also show how the same values of the
 modelled log compare to the entirety of the filtered dataset.
 
 ``` r
-#GENERATE VALIDATING PLOTS
-      
-    if (include_validating_plots == TRUE) {
-      
-      title <- paste('seed = ', seed, sep = '')
+ title <- paste('seed = ', seed, ' element type = ', selected_element,sep = '')
       subtitle <- paste(selected_element,'\nsand thck=',  round(sum_sand_thickness,2), sep = '')
       
       selected_NG_data <- input_ng_data %>% 
@@ -907,20 +903,20 @@ modelled log compare to the entirety of the filtered dataset.
         mud_thickness_validating_plot <- ggplot()+
           geom_boxplot(data = selected_mud_thickness_values, aes(x=facies_type, y = stacked_thickness), outlier.shape = 4, outlier.alpha = 0.5, lwd=0.23, width = 0.6)+
           stat_summary(fun.y = 'mean', size = 0.2, shape = 15)+
-          geom_text(aes(label = paste('n=',nrow(selected_mud_thickness_values), sep = '')), x=0.75, y=0.75, size = 11/.pt)+
+          geom_text(aes(label = paste('n=',nrow(selected_mud_thickness_values), sep = '')), x=0.75, y=0.75, size = 7/.pt)+
           geom_point(data = combined_df_mud, aes(y=thck), x = 'M', size = 4, shape = 23, fill = 'red', alpha = 0.5, stroke = 0.12,)+
-          geom_text(aes(label = paste('n=',nrow(combined_df_mud), sep = '')), y=0.70, x=0.75, size = 11/.pt, color = 'red')+
+          geom_text(aes(label = paste('n=',nrow(combined_df_mud), sep = '')), y=0.70, x=0.75, size = 7/.pt, color = 'red')+
           coord_cartesian(ylim = c(0,0.75))+
           scale_y_continuous(breaks = seq(0,0.75, by = 0.25))+
           theme_classic()+
           theme(
-            axis.text.x = element_text(color = "black", size = 12),
+            axis.text.x = element_text(color = "black", size = 9),
             axis.title.x=element_blank(),
             axis.line = element_line(colour = 'black', size = 0.24),
             axis.ticks = element_line(colour = 'black', size = 0.24),
-            axis.text.y = element_text(color = "black", size = 12),
-            axis.title.y = element_text(color = "black", size = 12),
-            plot.title = element_text(color = 'black', size = 14, face = "bold"),
+            axis.text.y = element_text(color = "black", size = 9),
+            axis.title.y = element_text(color = "black", size = 9),
+            plot.title = element_text(color = 'black', size = 10),
             legend.position = 'bottom')+
           labs(
             title = 'Mud thickness',
@@ -935,13 +931,13 @@ modelled log compare to the entirety of the filtered dataset.
           scale_y_continuous(breaks = seq(0,0.75, by = 0.25))+
           theme_classic()+
           theme(
-            axis.text.x = element_text(color = "black", size = 12),
+            axis.text.x = element_text(color = "black", size = 9),
             axis.title.x=element_blank(),
             axis.line = element_line(colour = 'black', size = 0.24),
             axis.ticks = element_line(colour = 'black', size = 0.24),
-            axis.text.y = element_text(color = "black", size = 12),
-            axis.title.y = element_text(color = "black", size = 12),
-            plot.title = element_text(color = 'black', size = 14, face = "bold"),
+            axis.text.y = element_text(color = "black", size = 9),
+            axis.title.y = element_text(color = "black", size = 9),
+            plot.title = element_text(color = 'black', size = 10),
             legend.position = 'bottom')+
           labs(
             title = 'Mud thickness',
@@ -977,7 +973,7 @@ modelled log compare to the entirety of the filtered dataset.
         nrow = 2
       )
       
-      annotate_figure(validating_plots, top = text_grob(title))
+      validating_plots <- annotate_figure(validating_plots, top = text_grob(title, size = 10))
       
       validating_plot_list[[length(validating_plot_list)+1]] = validating_plots
       

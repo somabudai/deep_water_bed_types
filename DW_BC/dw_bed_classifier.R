@@ -4,10 +4,12 @@ library(dplyr)
 
 #READ DUMMY DATA
 
-facies_data_dummy <- read.csv('DW_BC/dummy_dataset/facies_data_dummy.csv', header = TRUE)
-system_data_dummy <- read.csv('DW_BC/dummy_dataset/system_data_dummy.csv', header = TRUE)
-element_data_dummy <-  read.csv('DW_BC/dummy_dataset/element_data_dummy.csv', header = TRUE)
+#Path to files might need to be changed depending on the
+#location of the users project file or if the folder structure is changed
 
+facies_data_dummy <- read.csv('dummy_dataset/facies_data_dummy.csv', header = TRUE)
+system_data_dummy <- read.csv('dummy_dataset/system_data_dummy.csv', header = TRUE)
+element_data_dummy <-  read.csv('dummy_dataset/element_data_dummy.csv', header = TRUE)
 
 #FUNCTION
 

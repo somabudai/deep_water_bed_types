@@ -1,6 +1,6 @@
 # Deep-Water Bed Classifier
 
-2024-11-12
+2024-11-13
 
 **Authors:** Budai, S., Colombera, L., McArthur, A. and Patacci, M.
 
@@ -32,9 +32,9 @@ dummy datasets containing partially redacted data extracted from the
 DMAKS database.
 
 ``` r
-facies_data_dummy <- read.csv('DW_BC/facies_data_dummy.csv', header = TRUE)
-system_data_dummy <- read.csv('DW_BC/system_data_dummy.csv', header = TRUE)
-element_data_dummy <-  read.csv('DW_BC/element_data_dummy.csv', header = TRUE)
+facies_data_dummy <- read.csv('dummy_dataset/facies_data_dummy.csv', header = TRUE)
+system_data_dummy <- read.csv('dummy_dataset/system_data_dummy.csv', header = TRUE)
+element_data_dummy <-  read.csv('dummy_dataset/element_data_dummy.csv', header = TRUE)
 ```
 
 #### 3. Function
