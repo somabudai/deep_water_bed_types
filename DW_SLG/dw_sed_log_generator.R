@@ -874,7 +874,7 @@ log_generator <- function(start_seed, iteration_number, include_logs = FALSE, in
   # write.csv(combined_df_ordered, file = paste(file_path,'/',file_name,'_log_df','.csv', sep=''), row.names = FALSE)
   # ggsave(log_plot, filename = paste(file_path,'/',file_name,'_log','.pdf', sep=''), device = 'pdf')
   
-  print('Log generation finished!')
+  print('Log generation finished! Outputs were saved in a folder in the working directory!')
   #RETURN THE REPORT DF    
   return(report_df)
     
