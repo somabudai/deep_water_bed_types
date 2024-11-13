@@ -41,11 +41,11 @@ a single figure (`ggpubr`) and fit distribution on thickness data
 ### 2. Loading dataset
 
 ``` r
-bed_data_dummy <- read.csv('bed_data_dummy.csv', header = TRUE)
-bed_transition_data_dummy <- read.csv('bed_transition_data_dummy.csv', header = TRUE)
-thickness_trend_dummy <-  read.csv('thickness_trend_dummy.csv', header = TRUE)
-sand_gravel_fraction_dummy <- read.csv('sand_gravel_fraction_dummy.csv', header = TRUE)
-mud_thickness_dummy <- read.csv('mud_thickness_dummy.csv', header = TRUE)
+bed_data_dummy <- read.csv('dummy_dataset/bed_data_dummy.csv', header = TRUE)
+bed_transition_data_dummy <- read.csv('dummy_dataset/bed_transition_data_dummy.csv', header = TRUE)
+thickness_trend_dummy <-  read.csv('dummy_dataset/thickness_trend_dummy.csv', header = TRUE)
+sand_gravel_fraction_dummy <- read.csv('dummy_dataset/sand_gravel_fraction_dummy.csv', header = TRUE)
+mud_thickness_dummy <- read.csv('dummy_dataset/mud_thickness_dummy.csv', header = TRUE)
 ```
 
 The code is supplied with dummy datasets in the form of .csv files. Data
